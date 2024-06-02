@@ -7,6 +7,7 @@ import expLaboralRouter from "./routes/expLaboralRouter.js"
 import estudiosRouter from './routes/estudiosRouter.js';
 import actDocenteRouter from './routes/actDocenteRouter.js';
 import congresosRouter from './routes/congresosRouter.js'
+import hardSkillsRouter from './routes/hardSkillsRouter.js'
 dotenv.config()
 const app = express()
 app.listen(process.env.PORT,()=>{
@@ -26,4 +27,5 @@ app.use("/api",expLaboralRouter)
 app.use("/api",estudiosRouter)
 app.use("/api",actDocenteRouter)
 app.use("/api",congresosRouter)
+app.use("/api",hardSkillsRouter)
 
