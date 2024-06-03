@@ -1,9 +1,10 @@
 import HardSkillsModel from "../models/HardSkillsModel.js";
-
+import mongoose from "mongoose";
 const hardSkillsController = {
   getHardSkills: async (req, res) => {
     try {
       const hardSkills = await HardSkillsModel.find();
+      console.log(`funcion que trae todas las HS :${hardSkills}`);
       res.json({
         response: hardSkills,
         success: true,
@@ -35,6 +36,7 @@ const hardSkillsController = {
   createHardSkills: async (req, res) => {
     try {
       const hardSkill = await HardSkillsModel.create(req.body);
+      console.log(req.body);
       res.json({
         response: hardSkill,
         success: true,
@@ -51,24 +53,43 @@ const hardSkillsController = {
   },
 
   updateHardSkills: async (req, res) => {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        error: true,
+        success: false,
+        message: "ID de hard skill no válido",
+      });
+    }
+
     try {
       const newHardSkill = await HardSkillsModel.findByIdAndUpdate(
-        req.params.id,
+        id,
         req.body,
         { new: true }
       );
+
+      if (!newHardSkill) {
+        return res.status(404).json({
+          error: true,
+          success: false,
+          message: "No se ha encontrado la hard skill para actualizar",
+        });
+      }
+
       res.json({
-        response: newHardSkil,
+        response: newHardSkill,
         status: 200,
         success: true,
         error: null,
-        message: "la hard skill se ha actualizado correctamente",
+        message: "La hard skill se ha actualizado correctamente",
       });
     } catch (error) {
+      console.error(error); // Registrar el error para depuración
       res.status(500).json({
         error: true,
         success: false,
-        message: "no se ha podido actualizar la hard Skill",
+        message: "No se ha podido actualizar la hard skill",
       });
     }
   },
