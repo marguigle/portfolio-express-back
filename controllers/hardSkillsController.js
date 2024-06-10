@@ -4,7 +4,7 @@ const hardSkillsController = {
   getHardSkills: async (req, res) => {
     try {
       const hardSkills = await HardSkillsModel.find();
-      console.log(`funcion que trae todas las HS :${hardSkills}`);
+
       res.json({
         response: hardSkills,
         success: true,
